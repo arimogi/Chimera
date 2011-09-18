@@ -1,0 +1,5 @@
+Chimera is a special framework to build special CMS.
+It is built upon codeIgniter, and several plugin (including HMVC, sparks, ion_auth and Phil Sturgeon template).
+
+In Chimera, there is no public and admin controller.
+If you need authentication or authorization, I've provide the function, but you should do it by yourself
