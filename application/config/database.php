@@ -48,8 +48,8 @@ $active_group = 'default';
 $active_record = TRUE;
 
 $db['default']['hostname'] = 'localhost';
-$db['default']['username'] = 'gofrendi';
-$db['default']['password'] = 'asgard';
+$db['default']['username'] = 'root';
+$db['default']['password'] = '';
 $db['default']['database'] = 'codeIgniter';
 $db['default']['dbdriver'] = 'mysql';
 $db['default']['dbprefix'] = '';

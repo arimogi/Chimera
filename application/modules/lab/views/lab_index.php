@@ -8,8 +8,8 @@
 
       Ext.onReady(function(){
           mod_module = Ext.create('Seed.PersistenceGrid',{
-              y : 70,
-              x : 250,
+              y : 0,
+              x : 0,
               fields : [
                   'id', 'menu', 'module'],
               data : [
@@ -52,8 +52,8 @@
           
           
           mod_privilege = Ext.create('Seed.PersistenceGrid',{
-              y : 270,
-              x : 250,
+              y : 200,
+              x : 0,
               fields : ['id', 'group_id', 'module_id'],
               data : [
                   {

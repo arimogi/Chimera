@@ -3,26 +3,23 @@
 use \lab\models\mod_module;
 use \lab\models\mod_privilege;
 
-class Lab extends CI_Controller {
+class Lab extends MY_Controller {
   public function __construct()
   {
     parent::__construct();                
   }
     
   public function index()
-  {           
-    $this->load->library('asset_loader');
+  {
     $data = array(
       "include" => $this->asset_loader->baseTag().
         $this->asset_loader->all()
     );
-    $this->load->view('lab_index', $data);
-    //$this->template->build('lab/lab_index', $data);
+    $this->template->build('lab/lab_index', $data);
   }
   
   public function install()
   {
-    $this->load->library('doctrine');
     $this->doctrine->tool->createSchema(array(
          $this->doctrine->em->getClassMetadata('lab\models\mod_module'),
          $this->doctrine->em->getClassMetadata('lab\models\mod_privilege')

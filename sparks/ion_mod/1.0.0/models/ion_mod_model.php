@@ -99,11 +99,11 @@ class Ion_mod_model extends CI_Model
           $SQL = "
                   SELECT id, type
                   FROM ".$this->tables["menus"]."
-                  WHERE code = '".$this->db->escape($code)."'"; 
+                  WHERE code = ".$this->db->escape($code); 
           $query = $this->db->query($SQL);
           foreach ($query->result() as $row)
           {
-            switch($type){
+            switch($row->type){
               case 0 : return TRUE; break;
               case 1 : return !$this->logged_in; break;
               case 2 : return $this->logged_in; break;
@@ -116,9 +116,9 @@ class Ion_mod_model extends CI_Model
                     WHERE 
                       (MG.group_id = UG.group_id) AND
                       (UG.user_id = ".(isset($this->profile["id"])?$this->profile["id"]:0).") AND
-                      (MG.menu_id = ".$row_id.")";
+                      (MG.menu_id = ".$row->id.")";
                   $query2 = $this->db->query($SQL);
-                  return ($query->num_rows()>0) ? TRUE : FALSE;
+                  return ($query2->num_rows()>0) ? TRUE : FALSE;
                   break;
             }
           }
