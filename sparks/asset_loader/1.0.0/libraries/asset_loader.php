@@ -42,20 +42,72 @@ class Asset_loader{
         return $this->js('assets/js/persistence_grid.js');        
     }
     
-    public function treeview()
+    public function jquery_treeview()
     {
         $result = $this->css('assets/js/jquery.treeview/jquery.treeview.css');
         $result .= $this->js('assets/js/jquery.treeview/jquery.treeview.js');
         return $result;
     }  
     
+    public function jquery_ui()
+    {
+        $result = $this->css('assets/js/jquery-ui/css/ui-lightness/jquery-ui.css');
+        $result .= $this->js('assets/js/jquery-ui/js/jquery-ui.min.js');
+        /*
+        $result .='
+            <script type="text/javascript">
+                $(document).ready(function(){
+                    $("input.datepicker").datepicker();
+                });
+            </script>
+            ';
+         * 
+         */
+        
+        return $result;
+    }
+    
+    public function jquery_form()
+    {
+        $result = $this->js('assets/js/jquery.form.js');
+        /*
+        $result .='
+            <script type="text/javascript">
+                $(document).ready(function(){
+                    $("form").ajaxForm(function(data){
+                        alert(data);
+                        $(".content").html(data);
+                    });
+                });
+            </script>
+            ';
+         * 
+         */
+        
+        return $result;
+    }
+    
+    public function all_jquery()
+    {
+        $result = $this->jquery();
+        $result .= $this->jquery_ui();
+        $result .= $this->jquery_form();
+        $result .= $this->jquery_treeview();
+        return $result;
+    }
+    
+    public function all_extjs()
+    {
+        $result = $this->jquery();
+        $result = $this->extjs();
+        $result .= $this->grid();
+        return $result; 
+    }
     
     public function all()
     {
-        $result = $this->jquery();
-        $result = $this->treeview();
-        $result .= $this->extjs();
-        $result .= $this->grid();
+        $result = $this->all_jquery();
+        $result .= $this->all_extjs();
         return $result;
     }
     

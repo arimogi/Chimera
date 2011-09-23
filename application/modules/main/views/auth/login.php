@@ -1,6 +1,6 @@
 <div class='mainInfo'>
 
-	<h1>Login</h1>
+	<h2>Login</h2>
     <div class="pageTitleBorder"></div>
 	<p>Please login with your email/username and password below.</p>
 	

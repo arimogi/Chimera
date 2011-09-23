@@ -15,7 +15,8 @@ class Lab extends MY_Controller {
       "include" => $this->asset_loader->baseTag().
         $this->asset_loader->all()
     );
-    $this->template->build('lab/lab_index', $data);
+    //$this->init_template();
+    $this->load->view('lab/lab_index', $data);
   }
   
   public function install()

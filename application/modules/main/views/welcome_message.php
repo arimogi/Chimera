@@ -1,4 +1,4 @@
-<h3>Overview</h3>
+<h2>Overview</h2>
 
 <p>Chimera is a combination of CodeIgniter and some useful libraries, javascript frameworks etc. These are the building blocks of chimera :</p>
 <ul>

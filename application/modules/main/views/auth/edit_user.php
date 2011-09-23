@@ -1,6 +1,6 @@
 <div class='mainInfo'>
 
-	<h1>Edit User</h1>
+	<h2>Edit User</h2>
 	<p>Please enter the users information below.</p>
 	
 	<div id="infoMessage"><?php echo $message;?></div>

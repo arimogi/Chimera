@@ -4,11 +4,18 @@ class Main extends MY_Controller
 {    
     public function __construct()
     {
-        parent::__construct();
-        $this->init_template();       
+        parent::__construct();        
     }
     
     public function index(){
+        $this->init_main_template();
+        $this->template->build('main/default',
+                array("content" => base_url()."index.php/main/home")
+        );
+    }
+    
+    public function home(){
+        $this->init_content_template();
         $this->template->build($this->allConfig['site_default_view']);
     }
     
@@ -40,13 +47,16 @@ class Main extends MY_Controller
                     }
 
 
-                    $this->template->build('main/auth/index', $this->data);
+                    $this->init_content_template();
+                    $this->template->build('main/auth/manage_user', $this->data);
             }
     }
 
     //log the user in
     function login()
     {
+            
+            
             $this->data['title'] = "Login";
 
             //validate form input
@@ -68,7 +78,7 @@ class Main extends MY_Controller
                     { //if the login was un-successful
                             //redirect them back to the login page
                             $this->session->set_flashdata('message', $this->ion_auth->errors());
-                            redirect('main/login', 'refresh'); //use redirects instead of loading views for compatibility with MY_Controller libraries
+                            redirect('main/index', 'refresh'); //use redirects instead of loading views for compatibility with MY_Controller libraries
                     }
             }
             else
@@ -85,8 +95,8 @@ class Main extends MY_Controller
                             'id' => 'password',
                             'type' => 'password',
                     );
-
-                    $this->template->build('main/auth/login', $this->data);
+                    redirect('main/index', $this->data); 
+                    //$this->load->view('main/auth/login', $this->data);
             }
     }
 
@@ -105,6 +115,8 @@ class Main extends MY_Controller
     //change password
     function change_password()
     {
+            $this->check_privilege('main/change_password');
+            
             $this->form_validation->set_rules('old', 'Old password', 'required');
             $this->form_validation->set_rules('new', 'New Password', 'required|min_length[' . $this->config->item('min_password_length', 'ion_auth') . ']|max_length[' . $this->config->item('max_password_length', 'ion_auth') . ']|matches[new_confirm]');
             $this->form_validation->set_rules('new_confirm', 'Confirm New Password', 'required');
@@ -140,6 +152,8 @@ class Main extends MY_Controller
                     );
 
                     //render
+                    //$this->load->view('main/auth/change_password', $this->data);
+                    $this->init_content_template();
                     $this->template->build('main/auth/change_password', $this->data);
             }
             else
@@ -164,6 +178,8 @@ class Main extends MY_Controller
     //forgot password
     function forgot_password()
     {
+            $this->check_privilege('main/forgot_password');
+            
             $this->form_validation->set_rules('email', 'Email Address', 'required');
             if ($this->form_validation->run() == false)
             {
@@ -173,6 +189,8 @@ class Main extends MY_Controller
                     );
                     //set any errors and display the form
                     $this->data['message'] = (validation_errors()) ? validation_errors() : $this->session->flashdata('message');
+                    
+                    $this->init_content_template();
                     $this->template->build('main/auth/forgot_password', $this->data);
             }
             else
@@ -196,6 +214,8 @@ class Main extends MY_Controller
     //reset password - final step for forgotten password
     public function reset_password($code)
     {
+            $this->check_privilege('main/reset_password');
+            
             $reset = $this->ion_auth->forgotten_password_complete($code);
 
             if ($reset)
@@ -213,6 +233,8 @@ class Main extends MY_Controller
     //activate the user
     function activate($id, $code=false)
     {
+            $this->check_privilege('main/activate');
+            
             if ($code !== false)
                     $activation = $this->ion_auth->activate($id, $code);
             else if ($this->ion_auth->is_admin())
@@ -235,6 +257,8 @@ class Main extends MY_Controller
     //deactivate the user
     function deactivate($id = NULL)
     {
+            $this->check_privilege('main/deactivate');
+            
             // no funny business, force to integer
             $id = (int) $id;
 
@@ -248,6 +272,7 @@ class Main extends MY_Controller
                     $this->data['csrf'] = $this->_get_csrf_nonce();
                     $this->data['user'] = $this->ion_auth->user($id)->row();
 
+                    $this->init_content_template();
                     $this->template->build('main/auth/deactivate_user', $this->data);
             }
             else
@@ -275,7 +300,9 @@ class Main extends MY_Controller
 
     //create a new user
     function create_user()
-    {
+    {            
+            $this->check_privilege('main/create_user');
+            
             $this->data['title'] = "Create User";
 
             if (!$this->ion_auth->logged_in() || !$this->ion_auth->is_admin())
@@ -362,6 +389,7 @@ class Main extends MY_Controller
                             'type' => 'password',
                             'value' => $this->form_validation->set_value('password_confirm'),
                     );
+                    $this->init_content_template();
                     $this->template->build('main/auth/create_user', $this->data);
             }
     }

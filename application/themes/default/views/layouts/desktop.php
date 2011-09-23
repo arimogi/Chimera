@@ -8,16 +8,13 @@
     <body>
         <div id="all">
             <div id="header">
-              <?php echo $template['partials']['header']; ?>
+              <?php echo $template['partials']['header']; ?> 
             </div>         
-            <div id="nav_menu"><?php echo $template['partials']['nav_menu']; ?></div>
+            <div id="menu"><?php echo $template['partials']['menu']; ?></div>
             <div id="center">               
-              <iframe class="content" name="content"></iframe> 
-              <div class="content" name="content"><?php echo $template['body']; ?></div>
+              <iframe id="content" name="content" src="<?php echo $template['body']; ?>"></iframe>
             </div>
             <div id="footer">
-              <p class="footer">Page rendered in <strong>{elapsed_time}</strong> seconds</p>
-              <img src="assets/images/chimera/chimera.png" /><br />
               <?php echo $template['partials']['footer']; ?>
             </div>
         </div>

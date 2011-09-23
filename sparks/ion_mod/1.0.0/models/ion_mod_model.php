@@ -52,7 +52,7 @@ class Ion_mod_model extends CI_Model
                   
                 $SQL = "
                   SELECT 
-                    id, code, name, target, description
+                    id, code, name, description
                   FROM ".
                     $this->tables["menus"]."
                   WHERE 
@@ -82,7 +82,6 @@ class Ion_mod_model extends CI_Model
                       $tmp = array();
                       $tmp['code'] = $row->code;
                       $tmp['name'] = $row->name;
-                      $tmp['target'] = $row->target;
                       $tmp['description'] = $row->description;
                       $tmp['children'] = $this->get_menu($row->id);
                       $result[] = $tmp;
