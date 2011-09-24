@@ -91,7 +91,7 @@ class Ion_mod_model extends CI_Model
                 return $result;
         }
         
-        public function check_privilege($code)
+        public function is_authorized($code)
         {
           if($this->is_admin) return TRUE;
           

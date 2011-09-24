@@ -36,6 +36,7 @@ class MY_Controller extends Controller
             $this->ion_auth->user($this->session->userdata('user_id'))->row()->username:
             "";
         $this->allConfig["menu"] = $this->ion_mod->get_menu();
+        $this->allConfig["data"] = $this->session->flashdata("data");
         
         $this->controllerName = $this->router->fetch_class();
     }
@@ -50,17 +51,11 @@ class MY_Controller extends Controller
         
         //layout
         $layout = $this->agent->is_mobile() ? 'mobile' : 'desktop';
-        $this->template->set_layout($layout);
+        $this->template->set_layout($layout.'_main');
         
         //partials
-        $this->template->set_partial('meta', 'layouts/'.$layout.'/meta', 
-                array(
-                    'meta'=>
-                        ($this->asset_loader->jquery()).
-                        ($this->asset_loader->jquery_treeview()).
-                        ($this->asset_loader->jquery_form()).
-                        ($this->asset_loader->jquery_ui())
-                ));        
+        $this->template->set_partial('meta_all', 'layouts/'.$layout.'/meta_all', $allConfig);        
+        $this->template->set_partial('meta_main', 'layouts/'.$layout.'/meta_main', $allConfig);        
         $this->template->set_partial('menu', 'layouts/'.$layout.'/menu', $allConfig);
         $this->template->set_partial('footer', 'layouts/'.$layout.'/footer', $allConfig);
         $this->template->set_partial('header', 'layouts/'.$layout.'/header', $allConfig);
@@ -78,21 +73,24 @@ class MY_Controller extends Controller
         $this->template->set_theme($this->db_config->getConfig('site_theme'));
         
         //layout
-        $layout = $this->agent->is_mobile() ? 'mobile_content' : 'desktop_content';
-        $this->template->set_layout($layout);
+        $layout = $this->agent->is_mobile() ? 'mobile' : 'desktop';
+        $this->template->set_layout($layout.'_content');
         
         //partials
-        $this->template->set_partial('meta', 'layouts/'.$layout.'/meta');
-                    
-        
+        $this->template->set_partial('meta_all', 'layouts/'.$layout.'/meta_all', $allConfig);
+        $this->template->set_partial('meta_content', 'layouts/'.$layout.'/meta_content', $allConfig);
          
     } 
     
-    protected function check_privilege($code)
+    protected function is_authorized($code)
     {
-        $allowed = $this->ion_mod->check_privilege($code);
-        if(!$allowed){
+        return $this->ion_mod->is_authorized($code);
+    }
+    
+    protected function pass($code)
+    {
+        if(!$this->is_authorized($code)){
             redirect(base_url());
         }
-    } 
+    }
 }

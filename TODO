@@ -22,4 +22,12 @@ FROM GITHUB.COM, HOW TO GIT :
 
       cd existing_git_repo
       git remote add origin git@github.com:goFrendiAsgard/Chimera.git
-      git push -u origin master      
+      git push -u origin master   
+      
+      
+    After changing something
+      
+      git add . -A
+      git commit -m 'the comment'
+      	or
+      git tag -a v1.4 -m 'version 1.4'   

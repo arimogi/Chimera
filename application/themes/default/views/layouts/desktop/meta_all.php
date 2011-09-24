@@ -7,7 +7,6 @@
         body {
                 font: 13px/20px normal Helvetica, Arial, sans-serif;
                 color: #4F5155;
-                background-color : #EEEEEE;
         }
 
         a {
@@ -62,9 +61,10 @@
         div#menu {
                 position : absolute;
                 z-index : 100;                
-                width : 250px;
+                width : 240px;
                 overflow : auto;
                 height : 430px;
+                padding : 5px;
         }
         
         iframe#content {
@@ -110,16 +110,12 @@
                 margin: 20px 0 0 0;
         }
         
-        form{
-                border-top : 1px solid #D0D0D0;
-                padding : 5px 0 5px 0;
+        #infoMessage:not(:empty){
+            background-color: #FFFFA0;
+            border-radius: 15px;
+            border : 1px solid red;
+            color : red;
+            padding : 5px;
         }
         
-        
 </style>
-<?php echo $meta ?>
-<script type="text/javascript">
-    $(document).ready(function(){
-        $("div#menu ul").treeview();
-    });    
-</script>

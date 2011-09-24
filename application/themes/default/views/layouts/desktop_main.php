@@ -3,10 +3,11 @@
     <head>
         <title><?php echo $template['title']; ?></title>
         <base href="<?php echo base_url(); ?>" />
-        <?php echo $template['partials']['meta']; ?>        
+        <?php echo $template['partials']['meta_all']; ?>
+        <?php echo $template['partials']['meta_main']; ?>
     </head>
     <body>
-        <div id="all">
+        <div id="all">            
             <div id="header">
               <?php echo $template['partials']['header']; ?> 
             </div>         

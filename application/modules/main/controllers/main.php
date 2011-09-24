@@ -22,7 +22,7 @@ class Main extends MY_Controller
     //redirect if needed, otherwise display the user list
     function manage_user()
     {
-            $this->check_privilege('main/manage_user');
+            $this->pass('main/manage_user');
             
             if (!$this->ion_auth->logged_in())
             {
@@ -54,8 +54,7 @@ class Main extends MY_Controller
 
     //log the user in
     function login()
-    {
-            
+    {      
             
             $this->data['title'] = "Login";
 
@@ -86,16 +85,11 @@ class Main extends MY_Controller
                     //set the flash data error message if there is one
                     $this->data['message'] = (validation_errors()) ? validation_errors() : $this->session->flashdata('message');
 
-                    $this->data['identity'] = array('name' => 'identity',
-                            'id' => 'identity',
-                            'type' => 'text',
-                            'value' => $this->form_validation->set_value('identity'),
-                    );
-                    $this->data['password'] = array('name' => 'password',
-                            'id' => 'password',
-                            'type' => 'password',
-                    );
-                    redirect('main/index', $this->data); 
+                    $this->data['identity'] = $this->form_validation->set_value('identity');
+                    
+                    $this->session->set_flashdata("data", $this->data);
+                    
+                    redirect('main/index', 'refresh'); 
                     //$this->load->view('main/auth/login', $this->data);
             }
     }
@@ -115,7 +109,7 @@ class Main extends MY_Controller
     //change password
     function change_password()
     {
-            $this->check_privilege('main/change_password');
+            $this->pass('main/change_password');
             
             $this->form_validation->set_rules('old', 'Old password', 'required');
             $this->form_validation->set_rules('new', 'New Password', 'required|min_length[' . $this->config->item('min_password_length', 'ion_auth') . ']|max_length[' . $this->config->item('max_password_length', 'ion_auth') . ']|matches[new_confirm]');
@@ -178,7 +172,7 @@ class Main extends MY_Controller
     //forgot password
     function forgot_password()
     {
-            $this->check_privilege('main/forgot_password');
+            $this->pass('main/forgot_password');
             
             $this->form_validation->set_rules('email', 'Email Address', 'required');
             if ($this->form_validation->run() == false)
@@ -214,7 +208,7 @@ class Main extends MY_Controller
     //reset password - final step for forgotten password
     public function reset_password($code)
     {
-            $this->check_privilege('main/reset_password');
+            $this->pass('main/reset_password');
             
             $reset = $this->ion_auth->forgotten_password_complete($code);
 
@@ -233,7 +227,7 @@ class Main extends MY_Controller
     //activate the user
     function activate($id, $code=false)
     {
-            $this->check_privilege('main/activate');
+            $this->pass('main/activate');
             
             if ($code !== false)
                     $activation = $this->ion_auth->activate($id, $code);
@@ -257,7 +251,7 @@ class Main extends MY_Controller
     //deactivate the user
     function deactivate($id = NULL)
     {
-            $this->check_privilege('main/deactivate');
+            $this->pass('main/deactivate');
             
             // no funny business, force to integer
             $id = (int) $id;
@@ -301,7 +295,7 @@ class Main extends MY_Controller
     //create a new user
     function create_user()
     {            
-            $this->check_privilege('main/create_user');
+            $this->pass('main/create_user');
             
             $this->data['title'] = "Create User";
 
