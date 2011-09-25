@@ -113,8 +113,8 @@
         #infoMessage:not(:empty){
             background-color: #FFFFA0;
             border-radius: 15px;
-            border : 1px solid red;
-            color : red;
+            border : 1px solid black;
+            color : black;
             padding : 5px;
         }
         

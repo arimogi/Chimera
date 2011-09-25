@@ -14,9 +14,10 @@ class Main extends MY_Controller
         );
     }
     
-    public function home(){
+    public function home(){        
         $this->init_content_template();
-        $this->template->build($this->allConfig['site_default_view']);
+        $this->data['message'] = (validation_errors()) ? validation_errors() : $this->session->flashdata('message');
+        $this->template->build($this->allConfig['site_default_view'],$this->data);
     }
     
     //redirect if needed, otherwise display the user list
@@ -24,32 +25,20 @@ class Main extends MY_Controller
     {
             $this->pass('main/manage_user');
             
-            if (!$this->ion_auth->logged_in())
-            {
-                    //redirect them to the login page
-                    redirect('main/login', 'refresh');
-            }
-            elseif (!$this->ion_auth->is_admin())
-            {
-                    //redirect them to the home page because they must be an administrator to view this
-                    redirect($this->config->item('base_url'), 'refresh');
-            }
-            else
-            {
-                    //set the flash data error message if there is one
-                    $this->data['message'] = (validation_errors()) ? validation_errors() : $this->session->flashdata('message');
+            //set the flash data error message if there is one
+            $this->data['message'] = (validation_errors()) ? validation_errors() : $this->session->flashdata('message');
 
-                    //list the users
-                    $this->data['users'] = $this->ion_auth->users()->result();
-                    foreach ($this->data['users'] as $k => $user)
-                    {
-                            $this->data['users'][$k]->groups = $this->ion_auth->get_users_groups($user->id);
-                    }
+            //list the users
+            $this->data['users'] = $this->ion_auth->users()->result();
+            foreach ($this->data['users'] as $k => $user)
+            {
+                    $this->data['users'][$k]->groups = $this->ion_auth->get_users_groups($user->id);
+            }
 
 
-                    $this->init_content_template();
-                    $this->template->build('main/auth/manage_user', $this->data);
-            }
+            $this->init_content_template();
+            $this->template->build('main/auth/manage_user', $this->data);
+           
     }
 
     //log the user in
@@ -115,10 +104,6 @@ class Main extends MY_Controller
             $this->form_validation->set_rules('new', 'New Password', 'required|min_length[' . $this->config->item('min_password_length', 'ion_auth') . ']|max_length[' . $this->config->item('max_password_length', 'ion_auth') . ']|matches[new_confirm]');
             $this->form_validation->set_rules('new_confirm', 'Confirm New Password', 'required');
 
-            if (!$this->ion_auth->logged_in())
-            {
-                    redirect('main/login', 'refresh');
-            }
             //$user = $this->ion_auth->get_user($this->session->userdata('user_id'));
             $user = $this->ion_auth->user($this->session->userdata('user_id'))->row();
 
@@ -159,7 +144,8 @@ class Main extends MY_Controller
                     if ($change)
                     { //if the password was successfully changed
                             $this->session->set_flashdata('message', $this->ion_auth->messages());
-                            $this->logout();
+                            //$this->logout();
+                            redirect('main/home', 'refresh');
                     }
                     else
                     {
@@ -215,7 +201,7 @@ class Main extends MY_Controller
             if ($reset)
             {  //if the reset worked then send them to the login page
                     $this->session->set_flashdata('message', $this->ion_auth->messages());
-                    redirect("main/login", 'refresh');
+                    redirect("main/home", 'refresh');
             }
             else
             { //if the reset didnt work then send them back to the forgot password page
@@ -238,7 +224,7 @@ class Main extends MY_Controller
             {
                     //redirect them to the auth page
                     $this->session->set_flashdata('message', $this->ion_auth->messages());
-                    redirect("main", 'refresh');
+                    redirect("main/manage_user", 'refresh');
             }
             else
             {
@@ -280,15 +266,12 @@ class Main extends MY_Controller
                                     show_404();
                             }
 
-                            // do we have the right userlevel?
-                            if ($this->ion_auth->logged_in() && $this->ion_auth->is_admin())
-                            {
-                                    $this->ion_auth->deactivate($id);
-                            }
+                            $this->ion_auth->deactivate($id);
                     }
 
                     //redirect them back to the auth page
-                    redirect('main', 'refresh');
+                    $this->session->set_flashdata('message', $this->ion_auth->messages());
+                    redirect('main/manage_user', 'refresh');
             }
     }
 
@@ -298,11 +281,6 @@ class Main extends MY_Controller
             $this->pass('main/create_user');
             
             $this->data['title'] = "Create User";
-
-            if (!$this->ion_auth->logged_in() || !$this->ion_auth->is_admin())
-            {
-                    redirect('main', 'refresh');
-            }
 
             //validate form input
             $this->form_validation->set_rules('first_name', 'First Name', 'required|xss_clean');
@@ -331,7 +309,7 @@ class Main extends MY_Controller
             { //check to see if we are creating the user
                     //redirect them back to the admin page
                     $this->session->set_flashdata('message', "User Created");
-                    redirect("main", 'refresh');
+                    redirect("main/home", 'refresh');
             }
             else
             { //display the create user form

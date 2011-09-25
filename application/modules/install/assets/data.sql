@@ -1,31 +1,3 @@
--- phpMyAdmin SQL Dump
--- version 3.3.7deb5build0.10.10.1
--- http://www.phpmyadmin.net
---
--- Host: localhost
--- Generation Time: Sep 21, 2011 at 02:49 PM
--- Server version: 5.1.49
--- PHP Version: 5.3.3-1ubuntu9.5
-
-SET FOREIGN_KEY_CHECKS=0;
-SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
-
-
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8 */;
-
---
--- Database: `codeIgniter`
---
-
--- --------------------------------------------------------
-
---
--- Table structure for table `auth_groups`
---
-
 CREATE TABLE IF NOT EXISTS `auth_groups` (
   `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(20) NOT NULL,
@@ -33,19 +5,13 @@ CREATE TABLE IF NOT EXISTS `auth_groups` (
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
 
---
--- Dumping data for table `auth_groups`
---
+--split--
 
 INSERT INTO `auth_groups` (`id`, `name`, `description`) VALUES
 (1, 'admin', 'Administrator'),
 (2, 'members', 'General User');
 
--- --------------------------------------------------------
-
---
--- Table structure for table `auth_menus`
---
+--split--
 
 CREATE TABLE IF NOT EXISTS `auth_menus` (
   `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
@@ -57,9 +23,7 @@ CREATE TABLE IF NOT EXISTS `auth_menus` (
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=9 ;
 
---
--- Dumping data for table `auth_menus`
---
+--split--
 
 INSERT INTO `auth_menus` (`id`, `parent_id`, `code`, `name`, `description`, `type`) VALUES
 (1, 0, 'main/forgot_password', 'Forgot Password', NULL, 1),
@@ -69,11 +33,7 @@ INSERT INTO `auth_menus` (`id`, `parent_id`, `code`, `name`, `description`, `typ
 (5, 0, 'main/home', 'Home', NULL, 0),
 (6, 5, 'lab', 'Lab', NULL, 3);
 
--- --------------------------------------------------------
-
---
--- Table structure for table `auth_menus_groups`
---
+--split--
 
 CREATE TABLE IF NOT EXISTS `auth_menus_groups` (
   `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
@@ -82,16 +42,7 @@ CREATE TABLE IF NOT EXISTS `auth_menus_groups` (
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
---
--- Dumping data for table `auth_menus_groups`
---
-
-
--- --------------------------------------------------------
-
---
--- Table structure for table `auth_users`
---
+--split--
 
 CREATE TABLE IF NOT EXISTS `auth_users` (
   `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
@@ -114,18 +65,12 @@ CREATE TABLE IF NOT EXISTS `auth_users` (
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
 
---
--- Dumping data for table `auth_users`
---
+--split--
 
 INSERT INTO `auth_users` (`id`, `group_id`, `ip_address`, `username`, `password`, `salt`, `email`, `activation_code`, `forgotten_password_code`, `remember_code`, `created_on`, `last_login`, `active`, `first_name`, `last_name`, `company`, `phone`) VALUES
 (1, 0, 2130706433, 'administrator', 'de93d5f4a8bdba5b47424b0ba4d8522f7f0a6fd9', '9462e8eee0', 'admin@admin.com', '', NULL, NULL, 1268889823, 1316588862, 1, 'Admin', 'istrator', 'ADMIN', '0');
 
--- --------------------------------------------------------
-
---
--- Table structure for table `auth_users_groups`
---
+--split--
 
 CREATE TABLE IF NOT EXISTS `auth_users_groups` (
   `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
@@ -134,19 +79,13 @@ CREATE TABLE IF NOT EXISTS `auth_users_groups` (
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
 
---
--- Dumping data for table `auth_users_groups`
---
+--split--
 
 INSERT INTO `auth_users_groups` (`id`, `user_id`, `group_id`) VALUES
 (1, 1, 1),
 (2, 1, 2);
 
--- --------------------------------------------------------
-
---
--- Table structure for table `ci_sessions`
---
+--split--
 
 CREATE TABLE IF NOT EXISTS `ci_sessions` (
   `session_id` varchar(40) COLLATE utf8_bin NOT NULL DEFAULT '0',
@@ -155,22 +94,9 @@ CREATE TABLE IF NOT EXISTS `ci_sessions` (
   `last_activity` int(10) unsigned NOT NULL DEFAULT '0',
   `user_data` text COLLATE utf8_bin NOT NULL,
   PRIMARY KEY (`session_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
---
--- Dumping data for table `ci_sessions`
---
-
-INSERT INTO `ci_sessions` (`session_id`, `ip_address`, `user_agent`, `last_activity`, `user_data`) VALUES
-('46fa2875ef9057d10db38fd7f241d265', '127.0.0.1', 'Opera/9.80 (X11; Linux i686; U; en) Presto/2.8.131 Version/11.10', 1316587747, ''),
-('83ac02a5b9bd983d655dd2c864ee4730', '0.0.0.0', 'Mozilla/5.0 (X11; Linux i686) AppleWebKit/535.1 (KHTML, like Gecko) Ubuntu/10.10 Chromium/13.0.782.218 Chrome/13.0.782.2', 1316591239, ''),
-('f6b27039588064156f8c1e51d38077fc', '0.0.0.0', 'Mozilla/5.0 (X11; Linux i686; rv:6.0.2) Gecko/20100101 Firefox/6.0.2', 1316590793, 'a:3:{s:8:"username";s:13:"administrator";s:5:"email";s:15:"admin@admin.com";s:7:"user_id";s:1:"1";}');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `conf_config`
---
+--split--
 
 CREATE TABLE IF NOT EXISTS `conf_config` (
   `key` varchar(20) NOT NULL DEFAULT '',
@@ -178,9 +104,7 @@ CREATE TABLE IF NOT EXISTS `conf_config` (
   PRIMARY KEY (`key`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
---
--- Dumping data for table `conf_config`
---
+--split--
 
 INSERT INTO `conf_config` (`key`, `value`) VALUES
 ('site_title', 'Welcome to Chimera!'),
@@ -189,11 +113,7 @@ INSERT INTO `conf_config` (`key`, `value`) VALUES
 ('site_theme', 'default'),
 ('site_default_view', 'main/welcome_message');
 
--- --------------------------------------------------------
-
---
--- Table structure for table `mod_module`
---
+--split--
 
 CREATE TABLE IF NOT EXISTS `mod_module` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -201,31 +121,3 @@ CREATE TABLE IF NOT EXISTS `mod_module` (
   `module` varchar(50) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
-
---
--- Dumping data for table `mod_module`
---
-
-INSERT INTO `mod_module` (`id`, `menu`, `module`) VALUES
-(1, 'welcome', 'welcome/index'),
-(2, 'blog', 'blog/posts');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `mod_privilege`
---
-
-CREATE TABLE IF NOT EXISTS `mod_privilege` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `group_id` int(11) NOT NULL,
-  `module_id` int(11) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
-
---
--- Dumping data for table `mod_privilege`
---
-
-SET FOREIGN_KEY_CHECKS=1;
-
